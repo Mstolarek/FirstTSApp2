@@ -11,6 +11,7 @@ const HomeScreen = () => {
       </View>
       <View style={styles.contentBox}>
         <ContentScreen />
+        {/* <View style={{flex: 1, backgroundColor: 'white'}}></View> */}
       </View>
     </View>
   );

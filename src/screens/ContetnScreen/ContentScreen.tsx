@@ -1,4 +1,5 @@
 import React from 'react';
+import {useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -7,10 +8,16 @@ import {
   useWindowDimensions,
   Dimensions,
 } from 'react-native';
-import Animated from 'react-native-reanimated';
+import Animated, {
+  Easing,
+  withRepeat,
+  withTiming,
+} from 'react-native-reanimated';
+import {useSharedValue} from 'react-native-reanimated';
 import {useAnimatedProps} from 'react-native-reanimated';
 import {useDerivedValue} from 'react-native-reanimated';
-import Svg, {Circle, Path} from 'react-native-svg';
+import {mix} from 'react-native-redash';
+import Svg, {Circle, Path, Rect} from 'react-native-svg';
 import DummyArray from '../../components/Dummyarray';
 
 import ContentCarousel from './ContetnCarousel/ContentCarousel';
@@ -20,21 +27,57 @@ const AnimatedPath = Animated.createAnimatedComponent(Path);
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 const ContentScreen = () => {
+  const progress = useSharedValue(0);
+  const randC1 = useSharedValue(0);
+  const randC2 = useSharedValue(0);
+  const randX2 = useSharedValue(0);
+  const even = useSharedValue(false);
+  useEffect(() => {
+    progress.value = withRepeat(
+      withTiming(
+        1,
+        {duration: 4000, easing: Easing.inOut(Easing.ease)},
+        (x) => {
+          // console.warn('rand.value', x, rand.value);
+          if (even.value) {
+            randC1.value = Math.random() * 4;
+          }
+          if (even.value) {
+            randC2.value = Math.random() * 4;
+            randX2.value = Math.random() * 5;
+          }
+          even.value = !even.value;
+        },
+      ),
+      -1,
+      true,
+    );
+  }, [progress]);
   const data = useDerivedValue(() => {
-    // return 5;
     return {
-      from: {x: 0, y: 0},
-      c1: {x: 0.2, y: 0.2},
-      c2: {x: 0.4, y: 0.4},
-      c3: {x: 0.6, y: 0.6},
-      c4: {x: 0.8, y: 0.8},
-      to: {x: 1, y: 1},
+      from: {
+        x: mix(progress.value, 0, 0),
+        y: mix(progress.value, 0, 0),
+      },
+      c1: {
+        x: mix(progress.value, 2.5, 2.5),
+        y: mix(progress.value, 0, -randC1.value),
+      },
+      c2: {
+        // x: mix(progress.value, 7.5, 7.5),
+        x: mix(progress.value, 7.5, -randX2.value),
+        y: mix(progress.value, 0, randC2.value),
+      },
+      to: {
+        x: mix(progress.value, 10, 10),
+        y: mix(progress.value, 0, 0),
+      },
     };
   }, []);
   const path = useAnimatedProps(() => {
-    const {from, c1, c2, c3, c4, to} = data.value;
+    const {from, c1, c2, to} = data.value;
     return {
-      d: `M${from.x} ${from.y} C${c1.x} ${c1.y} C${c2.x} ${c2.y} C${c3.x} ${c3.y} C${c4.x} ${c4.y} C${to.x} ${to.y} L 1 1 L 0 1 Z`,
+      d: `M${from.x} ${from.y} C${c1.x} ${c1.y} ${c2.x} ${c2.y} ${to.x} ${to.y}`,
     };
   });
   const from = useAnimatedProps(() => {
@@ -65,31 +108,22 @@ const ContentScreen = () => {
       cy: y,
     };
   });
-  const c3 = useAnimatedProps(() => {
-    const {x, y} = data.value.c3;
-    return {
-      cx: x,
-      cy: y,
-    };
-  });
-  const c4 = useAnimatedProps(() => {
-    const {x, y} = data.value.c4;
-    return {
-      cx: x,
-      cy: y,
-    };
-  });
+
   return (
     <View style={styles.container}>
-      <Text style={styles.Text}>This is Content Box</Text>
-      <Svg width={SIZE} height={SIZE} viewBox="0 0 1 1">
+      {/* <Text style={styles.Text}>This is Content Box</Text> */}
+      <Svg
+        width={'100%'}
+        height={'100%'}
+        viewBox="0 -1 10 2.3"
+        // preserveAspectRatio={'xMidYMid meet'}
+      >
+        {/* <Rect x={0} y={0} width={10} height={10} fill="orange" /> */}
         <AnimatedPath fill="brown" animatedProps={path} />
-        {/* <AnimatedCircle fill="blue" animatedProps={from} />
-        <AnimatedCircle fill="teal" animatedProps={c1} />
-        <AnimatedCircle fill="teal" animatedProps={c2} />
-        <AnimatedCircle fill="teal" animatedProps={c3} />
-        <AnimatedCircle fill="teal" animatedProps={c4} />
-        <AnimatedCircle fill="blue" animatedProps={to} /> */}
+        <AnimatedCircle r={0.5} fill="pink" animatedProps={from} />
+        <AnimatedCircle r={0.25} fill="pink" animatedProps={c1} />
+        <AnimatedCircle r={0.25} fill="pink" animatedProps={c2} />
+        <AnimatedCircle r={0.5} fill="pink" animatedProps={to} />
       </Svg>
       {/* <ContentCarousel data={DummyArray} /> */}
     </View>
@@ -97,7 +131,16 @@ const ContentScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {flex: 1},
+  container: {
+    height: 100,
+    left: 0,
+    right: 0,
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    top: -25,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   Text: {fontSize: 24, alignSelf: 'center'},
 });
 
