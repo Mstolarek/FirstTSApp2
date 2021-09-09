@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   container: {flex: 1},
 
   mapBox: {flex: 0.66, backgroundColor: 'red'},
-  contentBox: {flex: 0.33, backgroundColor: 'green'},
+  contentBox: {flex: 0.33, backgroundColor: 'white'},
 });
 
 export default HomeScreen;
