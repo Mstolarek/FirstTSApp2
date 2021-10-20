@@ -1,11 +1,17 @@
-import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {View, StyleSheet, Text} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 
 const Searchbar = () => {
+  const [input, setInput] = useState('');
+
   return (
     <View style={styles.container}>
-      <TextInput style={styles.input} placeholder={'Search'} />
+      <TextInput
+        style={styles.input}
+        onChangeText={setInput}
+        placeholder={'Search'}
+      />
     </View>
   );
 };
