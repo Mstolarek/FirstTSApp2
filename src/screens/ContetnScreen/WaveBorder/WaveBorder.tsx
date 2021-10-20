@@ -25,6 +25,8 @@ const WaveBorder = () => {
     }
   });
   const progress = useSharedValue(0);
+  const progress1 = useSharedValue(0);
+  const progress2 = useSharedValue(0);
   const randY1 = useSharedValue(0);
   const randY2 = useSharedValue(0);
   const randX1 = useSharedValue(0);
@@ -51,10 +53,42 @@ const WaveBorder = () => {
             randX1.value = Math.random() * 2.5;
             randY2.value = Math.random() * 1.5;
             randX2.value = Math.random() * 2.5;
+          }
+          even.value = !even.value;
+        },
+      ),
+      -1,
+      true,
+    );
+  }, [progress]);
+  useEffect(() => {
+    progress1.value = withRepeat(
+      withTiming(
+        1,
+        {duration: 3500, easing: Easing.inOut(Easing.ease)},
+        (x) => {
+          // console.warn('rand.value', x, rand.value);
+          if (even.value) {
             randY11.value = Math.random() * 1.5;
             randX11.value = Math.random() * 2.5;
             randY22.value = Math.random() * 1.5;
             randX22.value = Math.random() * 2.5;
+          }
+          even.value = !even.value;
+        },
+      ),
+      -1,
+      true,
+    );
+  }, [progress1]);
+  useEffect(() => {
+    progress2.value = withRepeat(
+      withTiming(
+        1,
+        {duration: 3000, easing: Easing.inOut(Easing.ease)},
+        (x) => {
+          // console.warn('rand.value', x, rand.value);
+          if (even.value) {
             randY111.value = Math.random() * 3.5;
             randX111.value = Math.random() * 1.5;
             randY222.value = Math.random() * 2.5;
@@ -66,7 +100,7 @@ const WaveBorder = () => {
       -1,
       true,
     );
-  }, [progress]);
+  }, [progress2]);
   const data = useDerivedValue(() => {
     return {
       from: {
@@ -92,44 +126,44 @@ const WaveBorder = () => {
   const data1 = useDerivedValue(() => {
     return {
       from: {
-        x: mix(progress.value, 2.5, 2.5),
-        y: mix(progress.value, 0, 0),
+        x: mix(progress1.value, 2.5, 2.5),
+        y: mix(progress1.value, 0, 0),
       },
       c1: {
-        x: mix(progress.value, 5, 5 - randX11.value),
-        y: mix(progress.value, 0, -randY11.value),
+        x: mix(progress1.value, 5, 5 - randX11.value),
+        y: mix(progress1.value, 0, -randY11.value),
       },
       c2: {
         // x: mix(progress.value, 7.5, 7.5),
-        x: mix(progress.value, 7.5, 7.5 + randX22.value),
-        y: mix(progress.value, 0, -randY22.value),
+        x: mix(progress1.value, 7.5, 7.5 + randX22.value),
+        y: mix(progress1.value, 0, -randY22.value),
       },
 
       to: {
-        x: mix(progress.value, 15, 15),
-        y: mix(progress.value, 0, 0),
+        x: mix(progress1.value, 15, 15),
+        y: mix(progress1.value, 0, 0),
       },
     };
   }, []);
   const data2 = useDerivedValue(() => {
     return {
       from: {
-        x: mix(progress.value, 0, 0),
-        y: mix(progress.value, 0, 0),
+        x: mix(progress2.value, 0, 0),
+        y: mix(progress2.value, 0, 0),
       },
       c1: {
-        x: mix(progress.value, 3.33, 3.33 - randX11.value),
-        y: mix(progress.value, 0, -randY11.value),
+        x: mix(progress2.value, 3.33, 3.33 - randX11.value),
+        y: mix(progress2.value, 0, -randY11.value),
       },
       c2: {
         // x: mix(progress.value, 7.5, 7.5),
-        x: mix(progress.value, 6.66, 6.66 + randX22.value),
-        y: mix(progress.value, 0, -randY22.value),
+        x: mix(progress2.value, 6.66, 6.66 + randX22.value),
+        y: mix(progress2.value, 0, -randY22.value),
       },
 
       to: {
-        x: mix(progress.value, 10, 10),
-        y: mix(progress.value, 0, 0),
+        x: mix(progress2.value, 10, 10),
+        y: mix(progress2.value, 0, 0),
       },
     };
   }, []);
@@ -188,9 +222,9 @@ const WaveBorder = () => {
         viewBox="0 -1 10 2.3"
         // preserveAspectRatio={'xMidYMid meet'}
       >
-        <AnimatedPath fill="white" animatedProps={path} />
+        <AnimatedPath fill="green" animatedProps={path} />
         <AnimatedPath fill="orange" animatedProps={path2} />
-        <AnimatedPath fill="white" animatedProps={path1} />
+        <AnimatedPath fill="orange" animatedProps={path1} />
       </Svg>
     </View>
   );

@@ -11,7 +11,6 @@ const ContentScreen = () => {
   return (
     <View style={styles.container}>
       <WaveBorder />
-      {/* <Text style={styles.Text}>This is Content Box</Text> */}
 
       <ContentCarousel data={DummyArray} />
     </View>

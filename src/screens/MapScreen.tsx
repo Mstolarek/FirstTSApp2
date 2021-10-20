@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import MapView from 'react-native-maps';
+import Searchbar from '../components/Searchbar';
 
 const MapScreen = () => {
   return (
@@ -14,6 +15,7 @@ const MapScreen = () => {
           longitudeDelta: 0.0421,
         }}
       />
+      <Searchbar />
     </View>
   );
 };
