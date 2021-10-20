@@ -15,7 +15,6 @@ import Animated, {
 
 const SIZE = Dimensions.get('window').width;
 const AnimatedPath = Animated.createAnimatedComponent(Path);
-const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 const WaveBorder = () => {
   const direction = useSharedValue<() => number>(() => {

@@ -1,24 +1,7 @@
 import React from 'react';
-import {useState} from 'react';
-import {useEffect} from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  Image,
-  useWindowDimensions,
-  Dimensions,
-} from 'react-native';
-import Animated, {
-  Easing,
-  withRepeat,
-  withTiming,
-} from 'react-native-reanimated';
-import {useSharedValue} from 'react-native-reanimated';
-import {useAnimatedProps} from 'react-native-reanimated';
-import {useDerivedValue} from 'react-native-reanimated';
-import {mix} from 'react-native-redash';
-import Svg, {Circle, Path, Rect} from 'react-native-svg';
+
+import {View, StyleSheet} from 'react-native';
+
 import DummyArray from '../../components/Dummyarray';
 
 import ContentCarousel from './ContetnCarousel/ContentCarousel';
