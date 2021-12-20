@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {View, Image, useWindowDimensions, StyleSheet} from 'react-native';
+import {View, Image, useWindowDimensions, Text, StyleSheet} from 'react-native';
 import {PlaceStubType} from '../../../types';
 import {default as RNCarousel, Pagination} from 'react-native-snap-carousel';
 import {useCallback} from 'react';

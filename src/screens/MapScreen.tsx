@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, StyleSheet, Text, Image} from 'react-native';
 import MapView, {Callout, Marker} from 'react-native-maps';
 import globalStyles from '../constants/globalStyles';
 
 import Searchbar from '../components/Searchbar';
+import {searchContext, useSearchContext} from '../Context/SearchContext';
 
 const MapScreen = () => {
+  const {input} = useSearchContext();
   return (
     <View style={styles.container}>
       <MapView

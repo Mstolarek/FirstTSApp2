@@ -222,9 +222,9 @@ const WaveBorder = () => {
         viewBox="0 -1 10 2.3"
         // preserveAspectRatio={'xMidYMid meet'}
       >
-        <AnimatedPath fill="green" animatedProps={path} />
-        <AnimatedPath fill="orange" animatedProps={path2} />
-        <AnimatedPath fill="orange" animatedProps={path1} />
+        <AnimatedPath fill="white" animatedProps={path} />
+        <AnimatedPath fill="white" animatedProps={path2} />
+        <AnimatedPath fill="white" animatedProps={path1} />
       </Svg>
     </View>
   );
